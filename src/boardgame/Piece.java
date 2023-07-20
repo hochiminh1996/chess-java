@@ -4,7 +4,7 @@ public class Piece {
 	// classe peça. Voltanda para as especificidades de peça
 
 	protected Position position;//acessível apenas dentro do pacote e subclasses
-	private Board board; // é nossa associação com a classe tabuleiro
+	private Board board; // é nossa associação (composição) com a classe tabuleiro
 
 	public Piece() {
 	}
