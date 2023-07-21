@@ -30,7 +30,7 @@ public class Board {
 
 	// retorna os valores das posições definidas a partir de linha e coluna
 	public Piece piece(int row, int column) {
-		return pieces[row][column];//na primeira vez vai retornar null. Já que não há nada 
+		return pieces[row][column];// na primeira vez vai retornar null. Já que não há nada
 	}
 
 	// sobrecarga do método (polimorfismo de sobrecarga - estático)
@@ -38,4 +38,14 @@ public class Board {
 	public Piece piece(Position position) {
 		return pieces[position.getRow()][position.getColumn()];
 	}
+
+	// Aqui iremos receber uma peça e a colocaremos na posição informada
+	public void placePiece(Piece piece, Position position) {
+		pieces[position.getRow()][position.getColumn()] = piece;
+		// acessa a matriz pieces e na linha/coluna informada será colocada uma peça.
+		// Essa peça, por ter um toString, vai retornar a letra da mesma. Por exemplo,
+		// torre retorna R e Rei retorna K
+		piece.position = position;
+	}
+
 }
