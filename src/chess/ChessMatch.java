@@ -9,17 +9,19 @@ public class ChessMatch {
 
 	public ChessMatch() {
 		board = new Board(8, 8);// instanciando nosso tabuleiro. Um tabuleiro 8x8
+		// que será utilizado dentro da partida
 	}
 
-	// vai retornar uma matriz de peças de xadrez correspondende a a partida
+	// vai retornar uma matriz de peças de xadrez correspondente a partida informada
 	public ChessPiece[][] getPieces() {
 		ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];
-		// matriz criada com a quantidade de linha e coluna definida
+		// matriz criada com a quantidade de linha e coluna definida no tabuleiro
 
-		for (int i = 0; i < board.getRows(); i++) {
-			for (int j = 0; j < board.getColumns(); j++) {
-				mat[i][j] = (ChessPiece) board.piece(i, j);
-				// percorre linhas e colunas. Observe que está sendo realizando um downcasting
+		for (int i = 0; i < board.getRows(); i++) {// linha
+			for (int j = 0; j < board.getColumns(); j++) {// coluna
+				mat[i][j] = (ChessPiece) board.piece(i, j);//
+				// percorre linhas e colunas e atribui valor(na 1º vez será armazenado null 
+				// nas posições de linha e coluna). Observe que está sendo realizando um downcasting
 				// Afinal, o método board.piece retorna um Piece (peça genérica), sendo
 				// necessáriro converter p/ ChessPiece (peça de xadrez).
 				// Aqui entra a divisão de camadas da aplicação. Afinal, não queremos que o

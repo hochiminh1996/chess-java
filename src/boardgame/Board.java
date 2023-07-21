@@ -28,13 +28,13 @@ public class Board {
 		this.columns = columns;
 	}
 
-	// retorna uma matriz pieces com o número de linhas e colunas definidos
+	// retorna os valores das posições definidas a partir de linha e coluna
 	public Piece piece(int row, int column) {
-		return pieces[row][column];
+		return pieces[row][column];//na primeira vez vai retornar null. Já que não há nada 
 	}
 
 	// sobrecarga do método (polimorfismo de sobrecarga - estático)
-	// retornando a posição da peça
+	// Retorna o valor de uma posição passada (a8, a7 e etc)
 	public Piece piece(Position position) {
 		return pieces[position.getRow()][position.getColumn()];
 	}
