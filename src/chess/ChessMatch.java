@@ -15,6 +15,7 @@ public class ChessMatch {
 		board = new Board(8, 8);// instanciando nosso tabuleiro. Um tabuleiro 8x8
 		// que será utilizado dentro da partida
 		initialSetup();
+		//iniciando o game
 	}
 
 	// vai retornar uma matriz de peças de xadrez correspondente a partida informada
@@ -49,8 +50,8 @@ public class ChessMatch {
 		// (CONCEITO DE COMPOSIÇÃO)) E SETAR UMA COR. NO SEGUNDO ARGUMENTO, POSITION,
 		// VAMOS INSTANCIAR UMA POSIÇÃO NO TABULEIRO QUE A TORRE ESTARÁ.
 
-		board.placePiece(new King(board, Color.BLACK), new Position(0, 4));
-		board.placePiece(new King(board, Color.WHITE), new Position(7, 4));
+		board.placePiece(new King(board, Color.BLACK), new Position(2, 0));
+		board.placePiece(new King(board, Color.WHITE), new Position(2, 0));
 
 	}
 

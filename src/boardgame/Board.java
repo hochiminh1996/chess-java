@@ -41,11 +41,12 @@ public class Board {
 			throw new BoardException("Posição [" + position.getRow() + "][" + position.getColumn() + "] não existe!");
 		}
 		return pieces[position.getRow()][position.getColumn()];
+		//retorna null, se não existir nada, ou o valor da peça existente
 	}
 
 	// Aqui iremos receber uma peça e a colocaremos na posição informada
 	public void placePiece(Piece piece, Position position) {
-
+		// verifica se já existe uma posição na posição informada
 		if (thereIsAPiece(position)) {
 			throw new BoardException("Há uma peça nessa posição: ");
 		}
@@ -68,13 +69,14 @@ public class Board {
 	}
 
 	public boolean thereIsAPiece(Position position) {
+
+		// se for digitado uma posição inexistente
 		if (!positionExists(position)) {
 			throw new BoardException("Posição [" + position.getRow() + "][" + position.getColumn() + "] não existe!");
 		}
-
 		return piece(position) != null;
-		// se for diferente de null, significa que há uma peça nessa posição. E ele
-		// retorna a peça
+		// se for diferente de null, significa que há uma peça nessa posição e ele retorna verdadeiro.
+		// se for null, ou seja, vazio, ele retorna false.
 
 	}
 
