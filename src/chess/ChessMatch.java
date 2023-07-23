@@ -51,7 +51,7 @@ public class ChessMatch {
 		// VAMOS INSTANCIAR UMA POSIÇÃO NO TABULEIRO QUE A TORRE ESTARÁ.
 
 		board.placePiece(new King(board, Color.BLACK), new Position(2, 0));
-		board.placePiece(new King(board, Color.WHITE), new Position(2, 0));
+		board.placePiece(new King(board, Color.WHITE), new Position(3, 0));
 
 	}
 
