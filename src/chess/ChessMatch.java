@@ -1,7 +1,6 @@
 package chess;
 
 import boardgame.Board;
-import boardgame.Position;
 import chess.pieces.King;
 import chess.pieces.Rook;
 
@@ -15,7 +14,7 @@ public class ChessMatch {
 		board = new Board(8, 8);// instanciando nosso tabuleiro. Um tabuleiro 8x8
 		// que será utilizado dentro da partida
 		initialSetup();
-		//iniciando o game
+		// iniciando o game
 	}
 
 	// vai retornar uma matriz de peças de xadrez correspondente a partida informada
@@ -42,13 +41,14 @@ public class ChessMatch {
 
 	}
 
-	//vai receber as coordenadas passadas pelo usuario e a peça
+	// vai receber as coordenadas passadas pelo usuario e a peça
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
 		board.placePiece(piece, new ChessPosition(column, row).toPosition());
-		//passando uma peça e instanciando um novo objeto chessposition que vai passar coluna e linha
-		//que está sendo convertido para posições de matriz no toPosition()
+		// passando uma peça e instanciando um novo objeto chessposition que vai passar
+		// coluna e linha
+		// que está sendo convertido para posições de matriz no toPosition()
 	}
-	
+
 	// MÉTODO RESPONSÁVEL POR INICIALIZAR O JOGO COM AS PEÇAS
 	private void initialSetup() {
 //		board.placePiece(new Rook(board, Color.WHITE), new Position(2, 1))
@@ -60,14 +60,18 @@ public class ChessMatch {
 
 //		board.placePiece(new King(board, Color.BLACK), new Position(2, 0));
 //		board.placePiece(new King(board, Color.WHITE), new Position(3, 0));
-		
-		//iniciando as peças usando as posições de coordenada. Diferente da de cima que usa posições de matriz
+
+		// iniciando as peças usando as posições de coordenada. Diferente da de cima que
+		// usa posições de matriz
 		placeNewPiece('a', 6, new Rook(board, Color.BLACK));
 		placeNewPiece('e', 8, new King(board, Color.BLACK));
-		placeNewPiece('e', 1, new King(board, Color.WHITE));
+		placeNewPiece('b', 8, new King(board, Color.WHITE));
+		placeNewPiece('b', 1, new King(board, Color.WHITE));
+		placeNewPiece('a', 1, new Rook(board, Color.WHITE));
 		
-		
-
+//		System.out.println(new ChessPosition('b', 8)); retorna a posição de matriz 0,1 => 8-8=0, b-a=1
+//		System.out.println(new ChessPosition('b', 1));// retorna a posição de matriz 7,1 => 8-1=7, b-a=1
+		System.out.println(new ChessPosition('a', 1));//retorna a pos de matriz: 7,0 => 8-1=7, a-a=0
 	}
 
 }
