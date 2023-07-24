@@ -24,6 +24,7 @@ public class Board {
 		return columns;
 	}
 
+	
 	// retorna os valores das posições definidas a partir de linha e coluna
 	public Piece piece(int row, int column) {
 
@@ -44,6 +45,7 @@ public class Board {
 		//retorna null, se não existir nada, ou o valor da peça existente
 	}
 
+
 	// Aqui iremos receber uma peça e a colocaremos na posição informada
 	public void placePiece(Piece piece, Position position) {
 		// verifica se já existe uma posição na posição informada
@@ -58,6 +60,26 @@ public class Board {
 		piece.position = position;
 	}
 
+	public Piece removePiece(Position position) {
+		if(!positionExists(position)) {
+			throw new BoardException("Posição inválida.");
+		}
+		
+		if(piece(position) == null) {
+			//se for null, significa que não há peça nessa posição
+			return null;
+		}
+		
+		Piece aux = piece(position);// 
+		aux.position = null;//peça retirada do tabuleiro
+		
+		pieces[position.getRow()][position.getColumn()] = null; // na matriz será nula
+		
+		System.out.println(aux);
+		return aux;// retorna a peça que foi retirada
+		
+	}
+	
 	// irá validar se uma posição existe conforme as dimensões do tabuleiro
 	private boolean positionExists(int row, int column) {
 		return row >= 0 && row < this.rows && column >= 0 && column < this.columns;
@@ -79,5 +101,6 @@ public class Board {
 		// se for null, ou seja, vazio, ele retorna false.
 
 	}
-
+	
+	
 }

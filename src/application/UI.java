@@ -1,6 +1,10 @@
 package application;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 import chess.ChessPiece;
+import chess.ChessPosition;
 import chess.Color;
 
 public class UI {
@@ -27,8 +31,22 @@ public class UI {
 	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
+	// lê uma posição
+	public static ChessPosition readChessPosition(Scanner sc) {
+		try {
+			String s = sc.nextLine();
+			char column = s.charAt(0);// primeira letra da coluna
+
+			int row = Integer.parseInt(s.substring(1));// recorda a String a partir do 1 e converte para int
+
+			return new ChessPosition(column, row);// retorna a coluna e linha
+		} catch (RuntimeException e) {
+			throw new InputMismatchException("Erro lendo as posições de xadrez. Valores válidos de a1-h8");
+		}
+	}
+
 	public static void printBoard(ChessPiece[][] pieces) {
-		System.out.println(ANSI_BLUE_BACKGROUND+"   DEEP BLUE     "+ANSI_RESET);
+		System.out.println(ANSI_BLUE_BACKGROUND + ANSI_WHITE + "   DEEP BLUE     " + ANSI_RESET + ANSI_RESET);
 		System.out.println("-----------------");
 		for (int i = 0; i < pieces.length; i++) {
 			System.out.print((8 - i) + " ");
@@ -37,10 +55,9 @@ public class UI {
 			}
 			System.out.println();
 		}
-		System.out.println("  A B C D E F G H");//colunas
+		System.out.println("  A B C D E F G H");// colunas
 		System.out.println("-----------------");
-		System.out.println(ANSI_RED_BACKGROUND+ANSI_WHITE+"   FELIPPE M     "+ANSI_RESET+ANSI_RESET);
-
+		System.out.println(ANSI_RED_BACKGROUND + ANSI_WHITE + "    KASPAROV     " + ANSI_RESET + ANSI_RESET);
 
 	}
 
@@ -51,12 +68,13 @@ public class UI {
 		if (piece == null) {
 			System.out.print("-");
 		} else {
-			if(piece.getColor() == Color.WHITE) {
-				System.out.print(ANSI_WHITE + piece + ANSI_RESET);
-			}else {
-				System.out.print(ANSI_YELLOW + piece + ANSI_RESET);
+			if (piece.getColor() == Color.WHITE) {
+				System.out.print(ANSI_RED + piece + ANSI_RESET);
+			} else {
+				System.out.print(ANSI_BLUE + piece + ANSI_RESET);
 			}
 		}
 		System.out.print(" ");
 	}
+
 }

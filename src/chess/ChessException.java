@@ -1,7 +1,9 @@
 package chess;
 
+import boardgame.BoardException;
+
 //Classe voltada para exceções personalizadas do xadrez
-public class ChessException extends RuntimeException {
+public class ChessException extends BoardException {
 
 	/**
 	 * 
