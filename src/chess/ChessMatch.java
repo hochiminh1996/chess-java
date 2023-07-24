@@ -42,16 +42,31 @@ public class ChessMatch {
 
 	}
 
+	//vai receber as coordenadas passadas pelo usuario e a peça
+	private void placeNewPiece(char column, int row, ChessPiece piece) {
+		board.placePiece(piece, new ChessPosition(column, row).toPosition());
+		//passando uma peça e instanciando um novo objeto chessposition que vai passar coluna e linha
+		//que está sendo convertido para posições de matriz no toPosition()
+	}
+	
 	// MÉTODO RESPONSÁVEL POR INICIALIZAR O JOGO COM AS PEÇAS
 	private void initialSetup() {
-		board.placePiece(new Rook(board, Color.WHITE), new Position(2, 1));
+//		board.placePiece(new Rook(board, Color.WHITE), new Position(2, 1))
+
 		// ESSE MÉTODO PEGA NOSSO TABULEIRO E ADICIONA (INSTANCIA) PEÇAS. NO CASO, VAI
 		// INSTANCIAR UMA TORRE. NO ARG DA TORRE VAMOS REFERENCIAR O TABULEIRO (BOARD
 		// (CONCEITO DE COMPOSIÇÃO)) E SETAR UMA COR. NO SEGUNDO ARGUMENTO, POSITION,
 		// VAMOS INSTANCIAR UMA POSIÇÃO NO TABULEIRO QUE A TORRE ESTARÁ.
 
-		board.placePiece(new King(board, Color.BLACK), new Position(2, 0));
-		board.placePiece(new King(board, Color.WHITE), new Position(3, 0));
+//		board.placePiece(new King(board, Color.BLACK), new Position(2, 0));
+//		board.placePiece(new King(board, Color.WHITE), new Position(3, 0));
+		
+		//iniciando as peças usando as posições de coordenada. Diferente da de cima que usa posições de matriz
+		placeNewPiece('a', 6, new Rook(board, Color.BLACK));
+		placeNewPiece('e', 8, new King(board, Color.BLACK));
+		placeNewPiece('e', 1, new King(board, Color.WHITE));
+		
+		
 
 	}
 
