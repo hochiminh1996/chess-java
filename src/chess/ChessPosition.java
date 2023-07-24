@@ -30,6 +30,14 @@ public class ChessPosition {
 		// vai pegar uma coordenada que foi inserida com letra (coluna) e linha (número) e
 		// converter para uma posição que tenha apenas números na linha e coluna (posição de matriz)
 		return new Position(8 - row, column - 'a');
+		
+			// Se o usuário digitar b8
+			// 8 - 8 = 0, b - a = 1
+			// posição na matriz do b8 : linha 0, coluna 1 [0,1]
+		
+			//Se o usuario digitar d4
+			//4 - 4 = 4, d - a = 4 - 1 => 3
+			//posição na matriz d4 : linha 4, coluna 3 [4,3]
 
 		/*
 		 * Position recebe dois argumentos : linha e coluna. No entanto, precisamos

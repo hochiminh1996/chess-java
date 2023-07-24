@@ -63,15 +63,27 @@ public class ChessMatch {
 
 		// iniciando as peças usando as posições de coordenada. Diferente da de cima que
 		// usa posições de matriz
-		placeNewPiece('a', 6, new Rook(board, Color.BLACK));
-		placeNewPiece('e', 8, new King(board, Color.BLACK));
-		placeNewPiece('b', 8, new King(board, Color.WHITE));
-		placeNewPiece('b', 1, new King(board, Color.WHITE));
-		placeNewPiece('a', 1, new Rook(board, Color.WHITE));
-		
+		placeNewPiece('c', 1, new Rook(board, Color.WHITE));
+		placeNewPiece('c', 2, new Rook(board, Color.WHITE));
+		placeNewPiece('d', 2, new Rook(board, Color.WHITE));
+		placeNewPiece('e', 2, new Rook(board, Color.WHITE));
+		placeNewPiece('e', 1, new Rook(board, Color.WHITE));
+		placeNewPiece('d', 1, new King(board, Color.WHITE));
+
+		placeNewPiece('c', 7, new Rook(board, Color.BLACK));
+		placeNewPiece('c', 8, new Rook(board, Color.BLACK));
+		placeNewPiece('d', 7, new Rook(board, Color.BLACK));
+		placeNewPiece('e', 7, new Rook(board, Color.BLACK));
+		placeNewPiece('e', 8, new Rook(board, Color.BLACK));
+		placeNewPiece('d', 8, new King(board, Color.BLACK));
+
+//		8 = quantidade linhas. A=1, B=2, C=3, D=4 (...) letra digitada - a = valor correspondente a coluna correta na matriz
+
 //		System.out.println(new ChessPosition('b', 8)); retorna a posição de matriz 0,1 => 8-8=0, b-a=1
 //		System.out.println(new ChessPosition('b', 1));// retorna a posição de matriz 7,1 => 8-1=7, b-a=1
-		System.out.println(new ChessPosition('a', 1));//retorna a pos de matriz: 7,0 => 8-1=7, a-a=0
+//		System.out.println(new ChessPosition('a', 1));//retorna a pos de matriz: 7,0 => 8-1=7, a-a=0
+//		System.out.println(new ChessPosition('d', 4));//retorna a pos de matriz: 4,3 => 8-4=4, d-a = 4-1 = 3
+//		System.out.println(new ChessPosition('d', 4));
 	}
 
 }
