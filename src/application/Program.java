@@ -14,6 +14,9 @@ public class Program {
 		ChessMatch chessMatch = new ChessMatch();
 
 		while (true) {
+			UI.clearScreen();
+			
+			
 			UI.printBoard(chessMatch.getPieces());
 			System.out.print("Origem [a1-h8]: "); 
 			ChessPosition source = UI.readChessPosition(sc);

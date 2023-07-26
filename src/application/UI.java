@@ -31,6 +31,11 @@ public class UI {
 	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
+	public static void clearScreen() {//função para limpar a tela
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
+	}
+
 	// lê uma posição
 	public static ChessPosition readChessPosition(Scanner sc) {
 		try {
@@ -38,7 +43,7 @@ public class UI {
 			char column = s.charAt(0);// primeira letra da coluna
 
 			int row = Integer.parseInt(s.substring(1));// recorda a String a partir do 1 e converte para int
-
+			
 			return new ChessPosition(column, row);// retorna a coluna e linha
 		} catch (RuntimeException e) {
 			throw new InputMismatchException("Erro lendo as posições de xadrez. Valores válidos de a1-h8");
