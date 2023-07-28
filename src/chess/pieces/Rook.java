@@ -1,6 +1,7 @@
 package chess.pieces;
 
 import boardgame.Board;
+import boardgame.Position;
 import chess.ChessPiece;
 import chess.Color;
 
@@ -31,6 +32,102 @@ public class Rook extends ChessPiece {
 		boolean[][] mat = new boolean[getBoard().getRows()][getBoard().getColumns()];
 		// Uma matriz, do tipo boolean, com as dimensões definidas no tabuleiro :
 		// linha/coluna
+
+		
+		// ------------------------------------------------------------------------------
+		// posiçaõ auxiliar
+		Position p = new Position(0, 0);
+
+		// verificação se as posições acima(vertical) estão disponíveis
+		p.setValues(position.getRow() - 1, position.getColumn());
+		// position é o atributo(protected) posição da nossa peça.
+		// Estamos passando uma posição acima da peça atual (-1). Essa variável p
+		// será usada como referência para verificar todas as posições superiores
+
+		while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
+			// enquanto a posição p existir e não tiver uma peça na posição informada
+			mat[p.getRow()][p.getColumn()] = true;
+			// a posição receberá o valor true. Ou seja, true sigifica que vc pode se mover
+			// para lá.
+
+			p.setRow(p.getRow() - 1);// aqui ele vai decrementando a coluna para n ficar na mesma.
+
+		}
+
+		if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
+			// verifica se a posição desejada e se há uma peça por lá.
+
+			mat[p.getRow()][p.getColumn()] = true;
+			// definite como true
+		}
+
+		// ------------------------------------------------------------------------------
+		// [VAI VERIFICAR SE AS POSIÇÕES DO LADO ESQUERDO ESTÃO DISPONÍVEIS /
+		// HORIZONTAL]
+		p.setValues(position.getRow(), position.getColumn() - 1);
+		// Vai analisar as colunas, mas na mesma linha
+
+		while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
+			mat[p.getRow()][p.getColumn()] = true;
+
+			p.setColumn(p.getColumn() - 1);
+			// vai decrementar a coluna para validar posições de coluna diferentes
+
+		}
+
+		// verificando se tem uma peça adversária
+		if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
+			// verifica se a posição desejada e se há uma peça por lá.
+
+			mat[p.getRow()][p.getColumn()] = true;
+			// definite como true
+		}
+
+		// ------------------------------------------------------------------------------
+		// [VAI VERIFICAR SE AS POSIÇÕES DO LADO DIREITA ESTÃO DISPONÍVEIS /
+		// HORIZONTAL]
+		p.setValues(position.getRow(), position.getColumn() + 1);// Avançando à direita
+		// Vai analisar as colunas, mas na mesma linha
+
+		while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
+			mat[p.getRow()][p.getColumn()] = true;
+
+			p.setColumn(p.getColumn() + 1);
+			// vai decrementar a coluna para validar posições de coluna diferentes
+
+		}
+
+		// verificando se tem uma peça adversária
+		if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
+			// verifica se a posição desejada e se há uma peça por lá.
+
+			mat[p.getRow()][p.getColumn()] = true;
+			// definite como true
+		}
+
+		// ------------------------------------------------------------------------------
+		// [VAI VERIFICAR SE AS POSIÇÕES ABAIXO ESTÃO DISPONÍVEIS /
+
+		p.setValues(position.getRow() + 1, position.getColumn());
+		// +1 porque o valor da linha começa 0, a próxima posição é linha_atual+1
+
+		while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
+			// enquanto a posição p existir e não tiver uma peça na posição informada
+			mat[p.getRow()][p.getColumn()] = true;
+			// a posição receberá o valor true. Ou seja, true sigifica que vc pode se mover
+			// para lá.
+
+			p.setRow(p.getRow() + 1);// aqui ele vai decrementando a coluna para n ficar na mesma.
+
+		}
+
+		if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
+			// verifica se a posição desejada e se há uma peça por lá.
+
+			mat[p.getRow()][p.getColumn()] = true;
+			// definite como true
+		}
+		
 		return mat;
 	}
 
