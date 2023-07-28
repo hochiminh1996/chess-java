@@ -3,7 +3,7 @@ package chess;
 import boardgame.Board;
 import boardgame.Piece;
 
-public class ChessPiece extends Piece {
+public abstract class ChessPiece extends Piece {
 	// observe que piece é uma classe genérica. O que vamos utilizar de fato é a
 	// ChessPiece
 	private Color color;
@@ -17,4 +17,8 @@ public class ChessPiece extends Piece {
 		return color;
 	}
 
+
+
+	
+	
 }

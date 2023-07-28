@@ -41,6 +41,19 @@ public abstract class Piece {
 	public boolean isThereAnyPossibleMove() {
 		boolean[][] mat = possibleMoves();// novamente chamando o nosso método que será implementado
 		// e cada peça
+		
+		for(int i=0;i<mat.length;i++) {
+			for(int j=0;j<mat.length;j++) {
+				if(mat[i][j] == true) {
+					//existe um movimento possível
+					return true;
+				}
+			}
+		}
+		// se não encontrar um movimento possível dentro da matriz, retorna false.
+		return false;
+		
+		
 	}
 
 }

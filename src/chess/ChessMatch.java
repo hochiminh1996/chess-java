@@ -58,9 +58,9 @@ public class ChessMatch {
 		Piece p = board.removePiece(source); // retirando a peça da posição de origem.
 
 		Piece capturedPiece = board.removePiece(target); // remover a possivel peça na posição de destino.
-	
-		board.placePiece(p, target);//colocando a peça no destino.
-		
+
+		board.placePiece(p, target);// colocando a peça no destino.
+
 		return capturedPiece; // retorna a peça capturada
 	}
 
@@ -68,6 +68,11 @@ public class ChessMatch {
 	private void validateSourcePosition(Position position) {
 		if (!board.thereIsAPiece(position)) {
 			throw new ChessException("Não existe peça na posição de origem.");
+		}
+
+		// verificar se NÃO existe movimentos possíveis para a peça solicitada
+		if (!board.piece(position).isThereAnyPossibleMove()) {
+			throw new ChessException("Nao existe movimentos possiveis para a peca escolhida");
 		}
 	}
 
