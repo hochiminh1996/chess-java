@@ -38,7 +38,7 @@ public class Rook extends ChessPiece {
 		// posiçaõ auxiliar
 		Position p = new Position(0, 0);
 
-		// verificação se as posições acima(vertical) estão disponíveis
+		// verificação se a posição acima(vertical) está disponíveis
 		p.setValues(position.getRow() - 1, position.getColumn());
 		// position é o atributo(protected) posição da nossa peça.
 		// Estamos passando uma posição acima da peça atual (-1). Essa variável p
@@ -50,7 +50,8 @@ public class Rook extends ChessPiece {
 			// a posição receberá o valor true. Ou seja, true sigifica que vc pode se mover
 			// para lá.
 
-			p.setRow(p.getRow() - 1);// aqui ele vai decrementando a coluna para n ficar na mesma.
+			p.setRow(p.getRow() - 1);// aqui ele vai decrementando a coluna para n ficar na mesma e
+			// validar todas as posições possiveis
 
 		}
 

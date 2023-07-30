@@ -19,6 +19,15 @@ public class ChessMatch {
 		// iniciando o game
 	}
 
+	public boolean[][] possibleMoves(ChessPosition sourceposition) {
+		Position position = sourceposition.toPosition();
+		// converte uma posição de xadrez para uma posição de matriz
+
+		validateSourcePosition(position);// valida a posição de origem
+
+		return board.piece(position).possibleMoves();// retorna as posições possíveis (as q estiverem true)
+	}
+
 	// vai retornar uma matriz de peças de xadrez correspondente a partida informada
 	public ChessPiece[][] getPieces() {
 		ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];
