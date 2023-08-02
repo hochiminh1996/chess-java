@@ -23,7 +23,7 @@ public class King extends ChessPiece {
 	private boolean canMove(Position position) {
 		ChessPiece p = (ChessPiece) getBoard().piece(position);
 		
-		// pode se mover para tal posição se a posição for diferente de null e for uma
+		// pode se mover para tal posição se a posição for null ou for uma
 		// peça inimiga
 		return p == null || p.getColor() != getColor();
 	}

@@ -20,16 +20,16 @@ public class Program {
 			try {
 				UI.clearScreen();
 
-				UI.printBoard(chessMatch.getPieces());
+				UI.printMatch(chessMatch);
+
 				System.out.print("Origem [a1-h8]: ");
 				ChessPosition source = UI.readChessPosition(sc);
-				
+
 				boolean[][] possibleMoves = chessMatch.possibleMoves(source);
-				//matriz de booleano com os movimentos possíveis.
+				// matriz de booleano com os movimentos possíveis.
 				UI.clearScreen();
-				
+
 				UI.printBoard(chessMatch.getPieces(), possibleMoves);
-				
 
 				System.out.println();
 				System.out.print("Destino [a1-h8]: ");

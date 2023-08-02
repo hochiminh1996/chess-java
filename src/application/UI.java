@@ -3,6 +3,7 @@ package application;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.ChessPosition;
 import chess.Color;
@@ -50,13 +51,25 @@ public class UI {
 		}
 	}
 
+	// vai imprimir a partida
+	public static void printMatch(ChessMatch chessMatch) {
+		printBoard(chessMatch.getPieces());// imprimi as peças do tabuleiro
+
+		System.out.println();
+
+		System.out.println("Turno: " + chessMatch.getTurn());//mostra o turno
+		System.out.println("Aguardando o jogador: " + chessMatch.getCurrentPlayer());//mostra qual jogador de deve jogar
+		
+
+	}
+
 	public static void printBoard(ChessPiece[][] pieces) {
 		System.out.println(ANSI_BLUE_BACKGROUND + ANSI_WHITE + "   DEEP BLUE     " + ANSI_RESET + ANSI_RESET);
 		System.out.println("-----------------");
 		for (int i = 0; i < pieces.length; i++) {
 			System.out.print((8 - i) + " ");
 			for (int j = 0; j < pieces.length; j++) {
-				printPiece(pieces[i][j],false);
+				printPiece(pieces[i][j], false);
 				// vai imprimir as peças. O segundo parâmetro, false, é para não colorir o fundo
 				// o fundo colorido é usado apenas para movimentos possíveis de uma peça
 			}
@@ -76,7 +89,7 @@ public class UI {
 			System.out.print((8 - i) + " ");
 			for (int j = 0; j < pieces.length; j++) {
 				printPiece(pieces[i][j], possibleMoves[i][j]);
-				// vai imprimir as peças. O segundo parâmetro é para  colorir o fundo
+				// vai imprimir as peças. O segundo parâmetro é para colorir o fundo
 				// dos movimentos possíveis
 			}
 			System.out.println();
@@ -99,7 +112,7 @@ public class UI {
 		if (piece == null) {
 			System.out.print("-" + ANSI_RESET);
 		} else {
-			if (piece.getColor() == Color.WHITE) {
+			if (piece.getColor() == Color.RED) {
 				System.out.print(ANSI_RED + piece + ANSI_RESET);
 			} else {
 				System.out.print(ANSI_BLUE + piece + ANSI_RESET);

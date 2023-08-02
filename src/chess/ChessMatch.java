@@ -9,14 +9,29 @@ import chess.pieces.Rook;
 public class ChessMatch {
 	// será o coração da partida. Aqui será pensando a regra de negócio da partida
 
+	private int turn;// turno
+	private Color currentPlayer;// jogador atual
+
 	private Board board;// composição : uma partida necessita de um tabuleiro
 	// Além disso, esse obj será utilizado para inserir as peças no tabuleiro
 
 	public ChessMatch() {
 		board = new Board(8, 8);// instanciando nosso tabuleiro. Um tabuleiro 8x8
 		// que será utilizado dentro da partida
+
+		turn = 1;// turno inicial = 1
+		currentPlayer = Color.RED;// começa com as peças brancas
+
 		initialSetup();
 		// iniciando o game
+	}
+
+	public int getTurn() {
+		return turn;
+	}
+
+	public Color getCurrentPlayer() {
+		return currentPlayer;
 	}
 
 	public boolean[][] possibleMoves(ChessPosition sourceposition) {
@@ -60,6 +75,8 @@ public class ChessMatch {
 		validateTargetPosition(source, target);// validando a posição de destino
 
 		Piece capturaPiece = makeMove(source, target);
+
+		nextTurn();// troca o turno do jogador
 		return (ChessPiece) capturaPiece;
 
 	}
@@ -80,6 +97,14 @@ public class ChessMatch {
 			throw new ChessException("Não existe peça na posição de origem.");
 		}
 
+		// se a cor da peça atual for diferente da peça que estiver sendo movimentada no
+		// tabuleiro. foi realizado um downcast para poder ter acesso aoa método getColor,
+		// já que getColor é um método do chesspiece. Se cair aqui, significa que o jogador
+		// está tentando movimentar uma peça do adversário
+		if (currentPlayer != ((ChessPiece) board.piece(position)).getColor()) {
+			throw new ChessException("Tentativa de mover a peca do adversario...");
+		}
+
 		// verificar se NÃO existe movimentos possíveis para a peça solicitada
 		if (!board.piece(position).isThereAnyPossibleMove()) {
 			throw new ChessException("Nao existe movimentos possiveis para a peca escolhida");
@@ -93,6 +118,14 @@ public class ChessMatch {
 			// significa que não podemos mexer a peça
 			throw new ChessException("A peca escolhida nao pode ser movimentada para o destino");
 		}
+	}
+
+	// função para trocar de turno
+	private void nextTurn() {
+		turn++;// incrementador
+		System.out.println(currentPlayer);
+		currentPlayer = (currentPlayer == Color.RED) ? Color.BLUE : Color.RED;
+		// ternário que identificará qual será o próximo jogador
 	}
 
 	// vai receber as coordenadas passadas pelo usuario e a peça
@@ -117,19 +150,19 @@ public class ChessMatch {
 
 		// iniciando as peças usando as posições de coordenada. Diferente da de cima que
 		// usa posições de matriz
-		placeNewPiece('c', 1, new Rook(board, Color.WHITE));
-		placeNewPiece('c', 2, new Rook(board, Color.WHITE));
-		placeNewPiece('d', 2, new Rook(board, Color.WHITE));
-		placeNewPiece('e', 2, new Rook(board, Color.WHITE));
-		placeNewPiece('e', 1, new Rook(board, Color.WHITE));
-		placeNewPiece('d', 1, new King(board, Color.WHITE));
+		placeNewPiece('c', 1, new Rook(board, Color.RED));
+		placeNewPiece('c', 2, new Rook(board, Color.RED));
+		placeNewPiece('d', 2, new Rook(board, Color.RED));
+		placeNewPiece('e', 2, new Rook(board, Color.RED));
+		placeNewPiece('e', 1, new Rook(board, Color.RED));
+		placeNewPiece('d', 1, new King(board, Color.RED));
 
-		placeNewPiece('c', 7, new Rook(board, Color.BLACK));
-		placeNewPiece('c', 8, new Rook(board, Color.BLACK));
-		placeNewPiece('d', 7, new Rook(board, Color.BLACK));
-		placeNewPiece('e', 7, new Rook(board, Color.BLACK));
-		placeNewPiece('e', 8, new Rook(board, Color.BLACK));
-		placeNewPiece('d', 8, new King(board, Color.BLACK));
+		placeNewPiece('c', 7, new Rook(board, Color.BLUE));
+		placeNewPiece('c', 8, new Rook(board, Color.BLUE));
+		placeNewPiece('d', 7, new Rook(board, Color.BLUE));
+		placeNewPiece('e', 7, new Rook(board, Color.BLUE));
+		placeNewPiece('e', 8, new Rook(board, Color.BLUE));
+		placeNewPiece('d', 8, new King(board, Color.BLUE));
 
 //		8 = quantidade linhas. A=1, B=2, C=3, D=4 (...) letra digitada - a = valor correspondente a coluna correta na matriz
 
