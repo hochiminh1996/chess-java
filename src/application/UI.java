@@ -1,7 +1,10 @@
 package application;
 
+import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import chess.ChessMatch;
 import chess.ChessPiece;
@@ -52,14 +55,16 @@ public class UI {
 	}
 
 	// vai imprimir a partida
-	public static void printMatch(ChessMatch chessMatch) {
+	public static void printMatch(ChessMatch chessMatch, List<ChessPiece> captured) {
 		printBoard(chessMatch.getPieces());// imprimi as peças do tabuleiro
 
 		System.out.println();
+		printCapturedPieces(captured);//imprimi peças capturadas
+		System.out.println();
 
-		System.out.println("Turno: " + chessMatch.getTurn());//mostra o turno
-		System.out.println("Aguardando o jogador: " + chessMatch.getCurrentPlayer());//mostra qual jogador de deve jogar
-		
+		System.out.println("Turno: " + chessMatch.getTurn());// mostra o turno
+		System.out.println("Aguardando o jogador: " + chessMatch.getCurrentPlayer());// mostra qual jogador de deve
+																						// jogar
 
 	}
 
@@ -119,6 +124,30 @@ public class UI {
 			}
 		}
 		System.out.print(" ");
+	}
+
+	// método que irá mostrar peças capturadas
+	private static void printCapturedPieces(List<ChessPiece> captured) {
+		List<ChessPiece> red = captured.stream().filter(x -> x.getColor() == Color.RED).collect(Collectors.toList());
+		// filtrando da lista todas as peças vermelhas a partir da lista fornecida
+
+		List<ChessPiece> blue = captured.stream().filter(x -> x.getColor() == Color.BLUE).collect(Collectors.toList());
+		// filtrando da lista todas as peças vermelhas a partir da lista fornecida
+
+		System.out.println("Pecas capturadas:");
+		System.out.print("Vermelhas: ");
+		System.out.print(ANSI_RED);
+
+		System.out.println(Arrays.toString(red.toArray()));
+		System.out.print(ANSI_RESET);
+
+		System.out.println("Pecas capturadas:");
+		System.out.print("Azuis: ");
+		System.out.print(ANSI_BLUE);
+
+		System.out.println(Arrays.toString(blue.toArray()));
+		System.out.print(ANSI_RESET);
+
 	}
 
 }

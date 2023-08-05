@@ -1,5 +1,8 @@
 package chess;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import boardgame.Board;
 import boardgame.Piece;
 import boardgame.Position;
@@ -15,6 +18,11 @@ public class ChessMatch {
 	private Board board;// composição : uma partida necessita de um tabuleiro
 	// Além disso, esse obj será utilizado para inserir as peças no tabuleiro
 
+	private List<Piece> piecesOnTheBoard = new ArrayList<>();
+	//lista para as peças que ainda estão no tabuleiro. Usamos o tipo mais genérico PPiece
+	
+	private List<Piece> capturedPieces = new ArrayList<>();
+	
 	public ChessMatch() {
 		board = new Board(8, 8);// instanciando nosso tabuleiro. Um tabuleiro 8x8
 		// que será utilizado dentro da partida
@@ -87,6 +95,15 @@ public class ChessMatch {
 		Piece capturedPiece = board.removePiece(target); // remover a possivel peça na posição de destino.
 
 		board.placePiece(p, target);// colocando a peça no destino.
+		
+		
+		if(capturedPiece!=null) {
+			//se for diferente de null significa q havia uma peça aqui
+			piecesOnTheBoard.remove(capturedPiece);
+			//remove a peça capturada da lista de peças do tabuleiro
+			
+			capturedPieces.add(capturedPiece);
+		}
 
 		return capturedPiece; // retorna a peça capturada
 	}
@@ -134,6 +151,8 @@ public class ChessMatch {
 		// passando uma peça e instanciando um novo objeto chessposition que vai passar
 		// coluna e linha
 		// que está sendo convertido para posições de matriz no toPosition()
+		
+		piecesOnTheBoard.add(piece);//adicionado a peça na lista de peças do tabuleiro
 	}
 
 	// MÉTODO RESPONSÁVEL POR INICIALIZAR O JOGO COM AS PEÇAS
