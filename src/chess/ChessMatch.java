@@ -2,6 +2,7 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import boardgame.Board;
 import boardgame.Piece;
@@ -18,17 +19,20 @@ public class ChessMatch {
 	private Board board;// composição : uma partida necessita de um tabuleiro
 	// Além disso, esse obj será utilizado para inserir as peças no tabuleiro
 
+	private boolean check;// verifica se a peça está em check/por padrao vem false
+
 	private List<Piece> piecesOnTheBoard = new ArrayList<>();
-	//lista para as peças que ainda estão no tabuleiro. Usamos o tipo mais genérico PPiece
-	
+	// lista para as peças que ainda estão no tabuleiro. Usamos o tipo mais genérico
+	// PPiece
+
 	private List<Piece> capturedPieces = new ArrayList<>();
-	
+
 	public ChessMatch() {
 		board = new Board(8, 8);// instanciando nosso tabuleiro. Um tabuleiro 8x8
 		// que será utilizado dentro da partida
 
 		turn = 1;// turno inicial = 1
-		currentPlayer = Color.RED;// começa com as peças brancas
+		currentPlayer = Color.RED;// começa com as peças vermelhas
 
 		initialSetup();
 		// iniciando o game
@@ -40,6 +44,10 @@ public class ChessMatch {
 
 	public Color getCurrentPlayer() {
 		return currentPlayer;
+	}
+
+	public boolean getCheck() {
+		return check;
 	}
 
 	public boolean[][] possibleMoves(ChessPosition sourceposition) {
@@ -84,6 +92,15 @@ public class ChessMatch {
 
 		Piece capturaPiece = makeMove(source, target);
 
+		// caso o jogador movimente o rei para o raio de alcance das peças inimigas
+		if (testCheck(currentPlayer)) {
+			undoMove(source, target, capturaPiece);// desfazendo o movimento
+			throw new ChessException("Vc nao pode se colocar em check...");
+		}
+
+		check = (testCheck(opponent(currentPlayer))) ? true : false;
+		// se o oponente está em check
+
 		nextTurn();// troca o turno do jogador
 		return (ChessPiece) capturaPiece;
 
@@ -95,18 +112,30 @@ public class ChessMatch {
 		Piece capturedPiece = board.removePiece(target); // remover a possivel peça na posição de destino.
 
 		board.placePiece(p, target);// colocando a peça no destino.
-		
-		
-		if(capturedPiece!=null) {
-			//se for diferente de null significa q havia uma peça aqui
+
+		if (capturedPiece != null) {
+			// se for diferente de null significa q havia uma peça aqui
 			piecesOnTheBoard.remove(capturedPiece);
-			//remove a peça capturada da lista de peças do tabuleiro
-			
+			// remove a peça capturada da lista de peças do tabuleiro
+
 			capturedPieces.add(capturedPiece);
-			//adiciona a peça na lista de peças capturadas
+			// adiciona a peça na lista de peças capturadas
 		}
 
 		return capturedPiece; // retorna a peça capturada
+	}
+
+	// desfazendo um movimento
+	private void undoMove(Position source, Position target, Piece capturedPiece) {
+		Piece p = board.removePiece(target);// retira a peça que foi movimentado para o destino
+		board.placePiece(p, source);// coloca a peça na origem
+
+		if (capturedPiece != null) {// se teve uma peça capturada, colocamos ela na posição dela
+			board.placePiece(capturedPiece, target);
+			capturedPieces.remove(capturedPiece);// tirando ela da lista de peças capturas
+			piecesOnTheBoard.add(capturedPiece);// adicionado ela novamente na lista das peças do tab
+		}
+
 	}
 
 	// valida se há peça na posição de origem
@@ -116,8 +145,10 @@ public class ChessMatch {
 		}
 
 		// se a cor da peça atual for diferente da peça que estiver sendo movimentada no
-		// tabuleiro. foi realizado um downcast para poder ter acesso aoa método getColor,
-		// já que getColor é um método do chesspiece. Se cair aqui, significa que o jogador
+		// tabuleiro. foi realizado um downcast para poder ter acesso aoa método
+		// getColor,
+		// já que getColor é um método do chesspiece. Se cair aqui, significa que o
+		// jogador
 		// está tentando movimentar uma peça do adversário
 		if (currentPlayer != ((ChessPiece) board.piece(position)).getColor()) {
 			throw new ChessException("Tentativa de mover a peca do adversario...");
@@ -146,14 +177,58 @@ public class ChessMatch {
 		// ternário que identificará qual será o próximo jogador
 	}
 
+	// Verifica a cor do oponente
+	private Color opponent(Color color) {
+		return (color == Color.RED ? Color.BLUE : Color.RED);
+	}
+
+	private ChessPiece king(Color color) {
+		List<Piece> list = piecesOnTheBoard.stream().filter(x -> ((ChessPiece) x).getColor() == color)
+				.collect(Collectors.toList());
+		// filtrando uma lista usando expressão lambda.
+
+		for (Piece p : list) {
+			if (p instanceof King) {
+				return (ChessPiece) p;
+			}
+		}
+
+		throw new IllegalStateException("Nao existe o rei " + color + " no tabuleiro");
+
+	}
+
+	// varrer todas as peças do oponente e validar se há alguma peça dele ameaçando
+	// o rei
+	private boolean testCheck(Color color) {
+		Position kingPostion = king(color).getChessPosition().toPosition();
+		// pega a posição do rei no formato matriz linha/coluna
+
+		List<Piece> opponentPiece = piecesOnTheBoard.stream()
+				.filter(x -> ((ChessPiece) x).getColor() == opponent(color)).collect(Collectors.toList());
+		// vai varrear as peças do oponente
+
+		// verificando se há alguma peça que possui posição para dar check no rei
+		for (Piece p : opponentPiece) {
+			boolean[][] mat = p.possibleMoves();// matriz de movimentos possíveis de cada peça
+
+			// se mat tiver posições que dão na direção do rei, significa que o rei está em
+			// check
+			if (mat[kingPostion.getRow()][kingPostion.getColumn()]) {
+				return true;
+			}
+		}
+		return false;// o rei não está em check
+
+	}
+
 	// vai receber as coordenadas passadas pelo usuario e a peça
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
 		board.placePiece(piece, new ChessPosition(column, row).toPosition());
 		// passando uma peça e instanciando um novo objeto chessposition que vai passar
 		// coluna e linha
 		// que está sendo convertido para posições de matriz no toPosition()
-		
-		piecesOnTheBoard.add(piece);//adicionado a peça na lista de peças do tabuleiro
+
+		piecesOnTheBoard.add(piece);// adicionado a peça na lista de peças do tabuleiro
 	}
 
 	// MÉTODO RESPONSÁVEL POR INICIALIZAR O JOGO COM AS PEÇAS
