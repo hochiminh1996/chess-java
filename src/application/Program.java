@@ -39,10 +39,10 @@ public class Program {
 				ChessPosition target = UI.readChessPosition(sc);
 
 				ChessPiece capturePiece = chessMatch.performChessMove(source, target);
-				
-				
-				//se for diferente de null, significa que uma peça foi capturada e ela é adicionada na lista
-				if(captured!=null) {
+
+				// se for diferente de null, significa que uma peça foi capturada e ela é
+				// adicionada na lista
+				if (captured != null) {
 					captured.add(capturePiece);
 				}
 			} catch (ChessException e) {

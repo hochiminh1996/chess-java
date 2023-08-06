@@ -103,6 +103,7 @@ public class ChessMatch {
 			//remove a peça capturada da lista de peças do tabuleiro
 			
 			capturedPieces.add(capturedPiece);
+			//adiciona a peça na lista de peças capturadas
 		}
 
 		return capturedPiece; // retorna a peça capturada
