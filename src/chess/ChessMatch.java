@@ -20,6 +20,7 @@ public class ChessMatch {
 	// Além disso, esse obj será utilizado para inserir as peças no tabuleiro
 
 	private boolean check;// verifica se a peça está em check/por padrao vem false
+	private boolean check_mate;
 
 	private List<Piece> piecesOnTheBoard = new ArrayList<>();
 	// lista para as peças que ainda estão no tabuleiro. Usamos o tipo mais genérico
@@ -48,6 +49,10 @@ public class ChessMatch {
 
 	public boolean getCheck() {
 		return check;
+	}
+
+	public boolean getCheckMate() {
+		return check_mate;
 	}
 
 	public boolean[][] possibleMoves(ChessPosition sourceposition) {
@@ -91,22 +96,33 @@ public class ChessMatch {
 		validateTargetPosition(source, target);// validando a posição de destino
 
 		Piece capturaPiece = makeMove(source, target);
-
 		// caso o jogador movimente o rei para o raio de alcance das peças inimigas
 		if (testCheck(currentPlayer)) {
+
 			undoMove(source, target, capturaPiece);// desfazendo o movimento
+
 			throw new ChessException("Vc nao pode se colocar em check...");
 		}
 
 		check = (testCheck(opponent(currentPlayer))) ? true : false;
 		// se o oponente está em check
 
-		nextTurn();// troca o turno do jogador
+		if (testCheckMate(opponent(currentPlayer))) {
+			// testa se o rei do oponente ficou em checkmate
+			check_mate = true;
+			// coloca true e finaliza
+		} else {
+			// caso contrário, troca de turno e prossegue o game
+			nextTurn();// troca o turno do jogador
+
+		}
+
 		return (ChessPiece) capturaPiece;
 
 	}
 
 	public Piece makeMove(Position source, Position target) {
+
 		Piece p = board.removePiece(source); // retirando a peça da posição de origem.
 
 		Piece capturedPiece = board.removePiece(target); // remover a possivel peça na posição de destino.
@@ -221,6 +237,55 @@ public class ChessMatch {
 
 	}
 
+	private boolean testCheckMate(Color color) {
+		if (!testCheck(color)) {
+			return false;
+		}
+
+		List<Piece> list = piecesOnTheBoard.stream().filter(x -> ((ChessPiece) x).getColor() == color)
+				.collect(Collectors.toList());
+		// pegando todas as peças da cor definida.
+
+		for (Piece p : list) {
+			boolean[][] mat = p.possibleMoves();
+			// um array com posições de movimentos possíveis
+
+			for (int i = 0; i < board.getRows(); i++) {
+				// linhas
+				for (int j = 0; j < board.getColumns(); j++) {
+					// colunas
+					if (mat[i][j]) {
+						// verificando se o movimento é possível com base nas posições da matriz
+						Position source = ((ChessPiece) p).getChessPosition().toPosition();// posição de origem
+						// transforma para uma posição no formato xadrez p/ matriz. Feito um downcast
+						// para acessar o método getChessPosition.
+
+						Position target = new Position(i, j);// posição de destino
+
+						Piece capturedPiece = makeMove(source, target);// movimentando da origem p/ destino
+
+						boolean testCheck = testCheck(color);
+						// testa se o rei da minha cor ainda está em check
+
+						undoMove(source, target, capturedPiece);
+						// desfazendo o movimento. Afinal, queriamos simular se o movimento de outras
+						// peças podem desfezer o checkMate feito pelas peças inimigas.
+
+						if (!testCheck) {
+							// se não estiveer em check, significa que algum movimento pode tirar o rei do
+							// check
+							return false;// não está mais em checkmate
+						}
+
+					}
+				}
+
+			}
+
+		}
+		return true;
+	}
+
 	// vai receber as coordenadas passadas pelo usuario e a peça
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
 		board.placePiece(piece, new ChessPosition(column, row).toPosition());
@@ -245,19 +310,11 @@ public class ChessMatch {
 
 		// iniciando as peças usando as posições de coordenada. Diferente da de cima que
 		// usa posições de matriz
-		placeNewPiece('c', 1, new Rook(board, Color.RED));
-		placeNewPiece('c', 2, new Rook(board, Color.RED));
-		placeNewPiece('d', 2, new Rook(board, Color.RED));
-		placeNewPiece('e', 2, new Rook(board, Color.RED));
-		placeNewPiece('e', 1, new Rook(board, Color.RED));
-		placeNewPiece('d', 1, new King(board, Color.RED));
-
-		placeNewPiece('c', 7, new Rook(board, Color.BLUE));
-		placeNewPiece('c', 8, new Rook(board, Color.BLUE));
-		placeNewPiece('d', 7, new Rook(board, Color.BLUE));
-		placeNewPiece('e', 7, new Rook(board, Color.BLUE));
-		placeNewPiece('e', 8, new Rook(board, Color.BLUE));
-		placeNewPiece('d', 8, new King(board, Color.BLUE));
+		placeNewPiece('h', 7, new Rook(board, Color.RED));
+		placeNewPiece('d', 1, new Rook(board, Color.RED));
+		placeNewPiece('e', 1, new King(board, Color.RED));
+		placeNewPiece('b', 8, new Rook(board, Color.BLUE));
+		placeNewPiece('a', 8, new King(board, Color.BLUE));
 
 //		8 = quantidade linhas. A=1, B=2, C=3, D=4 (...) letra digitada - a = valor correspondente a coluna correta na matriz
 

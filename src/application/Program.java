@@ -18,8 +18,8 @@ public class Program {
 		ChessMatch chessMatch = new ChessMatch();
 		List<ChessPiece> captured = new ArrayList<>();
 
-		while (true) {
-
+		while (!chessMatch.getCheckMate()) {
+			//vai rodar enquanto não estiver em checkmate, ou seja, em true
 			try {
 				UI.clearScreen();
 
@@ -54,6 +54,8 @@ public class Program {
 			}
 
 		}
+		UI.clearScreen();//limpando a tela
+		UI.printMatch(chessMatch, captured);
 
 	}
 

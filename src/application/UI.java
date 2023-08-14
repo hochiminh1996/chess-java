@@ -63,10 +63,20 @@ public class UI {
 		System.out.println();
 
 		System.out.println("Turno: " + chessMatch.getTurn());// mostra o turno
-		System.out.println("Aguardando o jogador: " + chessMatch.getCurrentPlayer());// mostra qual jogador de deve
-																						// jogar
-		if (chessMatch.getCheck()) {
-			System.out.println("Check!");
+
+		// verifica se está em check. Ou seja, valida se o valor do getCheckMate é
+		// diferente de false. Já que um boolean começa com false
+		if (!chessMatch.getCheckMate()) {
+			System.out.println("Aguardando o jogador: " + chessMatch.getCurrentPlayer());// mostra qual jogador de deve
+			// jogar
+			if (chessMatch.getCheck()) {
+				System.out.println("Check!");
+			}
+			
+			
+		} else {
+			System.out.println("CHECKMATE!");
+			System.out.println("Vencedor: " + chessMatch.getCurrentPlayer());
 		}
 
 	}
@@ -131,8 +141,6 @@ public class UI {
 
 	// método que irá mostrar peças capturadas
 	private static void printCapturedPieces(List<ChessPiece> captured) {
-
-	
 
 		// O ERRO É AQUI
 		List<ChessPiece> red = captured.stream().filter(x -> x != null && x.getColor() == Color.RED)
