@@ -13,4 +13,4 @@
   - [ ] Bispo
   - [ ] Peão
   
-Em desenvolvimento...
+Em desenvolvimento...(pause devido o retorno da faculdade)
